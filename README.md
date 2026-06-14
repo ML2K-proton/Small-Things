@@ -19,7 +19,6 @@ Chào mừng bạn đến với kho lưu trữ các ứng dụng nhỏ (Micro-to
 
 * **Tính năng cốt lõi:**
     * **Hardcode Deadline:** Hạn chót được cấu hình "chết" trong mã nguồn để ép buộc bản thân vào kỷ luật thép, không thể gian lận hay dời lịch trên giao diện.
-    * **Siêu đếm ngược (Mili-seconds):** Bộ đếm thời gian thực chạy liên tục từng mili-giây, tạo áp lực tích cực hối thúc hành động.
     * **Thanh tiến độ thông minh:** Tự động tính toán và hiển thị % hoàn thành công việc trực quan trong ngày.
     * **Giao diện Dark Mode Neon:** Phong cách Cyberpunk LED giúp tập trung cao độ vào ban đêm.
 
