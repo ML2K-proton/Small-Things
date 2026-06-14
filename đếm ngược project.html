@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thử Thách Đếm Ngược 30 Ngày</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; 
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 500px;
+            margin-top: 40px; 
+        }
+
+        h2 {
+            color: #203a43;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ĐỒNG HỒ ĐẾM NGƯỢC CHẠY THEO GIÂY */
+        .countdown-box {
+            background: #111;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .time-segment {
+            background: #222;
+            padding: 8px 12px;
+            border-radius: 6px;
+            min-width: 65px;
+            border: 1px solid #333;
+        }
+
+        .time-num {
+            font-size: 28px;
+            font-weight: bold;
+            color: #00ffcc;
+            display: block;
+            text-shadow: 0 0 10px #00ffcc;
+        }
+
+        .time-label {
+            font-size: 10px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        .progress-container {
+            background: #e0e0e0;
+            border-radius: 10px;
+            height: 12px;
+            width: 100%;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #00ffcc, #00a8ff);
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #203a43;
+        }
+
+        button.add-btn {
+            background-color: #203a43;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button.add-btn:hover {
+            background-color: #0f2027;
+        }
+
+        ul {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        li {
+            background: #f9f9f9;
+            padding: 14px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 5px solid #203a43;
+            transition: 0.3s;
+        }
+
+        li.completed {
+            border-left-color: #00ffcc;
+            background: #f0fdfa;
+        }
+
+        li.completed span {
+            text-decoration: line-through;
+            color: #aaa;
+        }
+
+        .task-text {
+            cursor: pointer;
+            flex: 1;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+
+        .delete-btn {
+            background-color: #ff7675;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .delete-btn:hover {
+            background-color: #d63031;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>⏱️ THỬ THÁCH ĐẾM NGƯỢC ⏱️</h2>
+
+        <div class="countdown-box">
+            <div class="timer-display">
+                <div class="time-segment"><span class="time-num" id="d">00</span><span class="time-label">Ngày</span></div>
+                <div class="time-segment"><span class="time-num" id="h">00</span><span class="time-label">Giờ</span></div>
+                <div class="time-segment"><span class="time-num" id="m">00</span><span class="time-label">Phút</span></div>
+                <div class="time-segment"><span class="time-num" id="s">00</span><span class="time-label">Giây</span></div>
+            </div>
+        </div>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div class="input-section">
+            <input type="text" id="taskInput" placeholder="Nhiệm vụ tiếp theo của bạn...">
+            <button class="add-btn" id="addBtn">Thêm</button>
+        </div>
+
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const addBtn = document.getElementById('addBtn');
+        const taskList = document.getElementById('taskList');
+        const progressBar = document.getElementById('progressBar');
+
+        const dDisplay = document.getElementById('d');
+        const hDisplay = document.getElementById('h');
+        const mDisplay = document.getElementById('m');
+        const sDisplay = document.getElementById('s');
+
+        let tasks = JSON.parse(localStorage.getItem('secTasks')) || [];
+
+        // ==========================================
+        // KHU VỰC ĐIỀN NGÀY HẠN CHÓT
+        // Hãy điền theo định dạng: "Năm-Tháng-Ngày Giờ:Phút:Giây"
+        // ==========================================
+        const MY_DEADLINE = "2026-07-14 23:59:59"; 
+        
+        // Chuyển mốc thời gian bạn điền thành dạng mili-giây để tính toán
+        const targetEndTime = new Date(MY_DEADLINE).getTime();
+
+        // HÀM ĐẾM NGƯỢC CHẠY THEO MỖI GIÂY
+        function runTimer() {
+            const now = new Date().getTime();
+            const distance = targetEndTime - now;
+
+            if (distance < 0) {
+                dDisplay.innerText = "00";
+                hDisplay.innerText = "00";
+                mDisplay.innerText = "00";
+                sDisplay.innerText = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            dDisplay.innerText = days < 10 ? "0" + days : days;
+            hDisplay.innerText = hours < 10 ? "0" + hours : hours;
+            mDisplay.innerText = minutes < 10 ? "0" + minutes : minutes;
+            sDisplay.innerText = seconds < 10 ? "0" + seconds : seconds;
+        }
+
+        function updateProgress() {
+            if (tasks.length === 0) {
+                progressBar.style.width = "0%";
+            } else {
+                const completedTasks = tasks.filter(t => t.completed).length;
+                const percent = (completedTasks / tasks.length) * 100;
+                progressBar.style.width = `${percent}%`;
+            }
+        }
+
+        setInterval(runTimer, 1000);
+
+        function saveAndRender() {
+            localStorage.setItem('secTasks', JSON.stringify(tasks));
+            taskList.innerHTML = '';
+            tasks.forEach((task, index) => {
+                const li = document.createElement('li');
+                if (task.completed) li.classList.add('completed');
+
+                const span = document.createElement('span');
+                span.className = 'task-text';
+                span.innerText = task.text;
+                span.addEventListener('click', () => {
+                    tasks[index].completed = !tasks[index].completed;
+                    saveAndRender();
+                });
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.innerText = 'Xóa';
+                deleteBtn.addEventListener('click', () => {
+                    tasks.splice(index, 1);
+                    saveAndRender();
+                });
+
+                li.appendChild(span);
+                li.appendChild(deleteBtn);
+                taskList.appendChild(li);
+            });
+            updateProgress();
+        }
+
+        function addTask() {
+            const text = taskInput.value.trim();
+            if (text === '') return;
+            tasks.push({ text: text, completed: false });
+            taskInput.value = '';
+            saveAndRender();
+            taskInput.focus();
+        }
+
+        addBtn.addEventListener('click', addTask);
+        taskInput.addEventListener('keypress', (e) => { e.key === 'Enter' && addTask(); });
+
+        runTimer();
+        saveAndRender();
+    </script>
+</body>
+</html>
