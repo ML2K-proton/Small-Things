@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ứng dụng Máy tính HTML</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+
+        .calculator {
+            background-color: #171c22;
+            padding: 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            width: 340px;
+        }
+
+        .display {
+            width: 100%;
+            height: 80px;
+            background-color: #222933;
+            border: none;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-size: 2.5rem;
+            text-align: right;
+            padding: 0 15px;
+            pointer-events: none;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        button {
+            padding: 20px;
+            border-radius: 15px;
+            border: none;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            background-color: #2e3846;
+            color: #ffffff;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        /* Màu sắc cho các nút đặc biệt */
+        button.operator {
+            background-color: #ff9f0a;
+            color: #ffffff;
+        }
+
+        button.clear {
+            background-color: #a5a5a5;
+            color: #000000;
+        }
+
+        button.equal {
+            background-color: #30d158;
+            color: #ffffff;
+            grid-column: span 2; /* Nút bằng dài gấp đôi */
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <input type="text" class="display" id="result" readonly value="0">
+        
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="clear" onclick="deleteLast()">DEL</button>
+            <button class="operator" onclick="appendValue('%')">%</button>
+            <button class="operator" onclick="appendValue('/')">/</button>
+
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button class="operator" onclick="appendValue('*')">x</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button class="operator" onclick="appendValue('-')">-</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button class="operator" onclick="appendValue('+')">+</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button class="equal" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('result');
+
+        // Thêm giá trị vào màn hình
+        function appendValue(value) {
+            if (display.value === '0' && value !== '.') {
+                display.value = value;
+            } else {
+                display.value += value;
+            }
+        }
+
+        // Xóa toàn bộ màn hình (C)
+        function clearDisplay() {
+            display.value = '0';
+        }
+
+        // Xóa ký tự cuối cùng (DEL)
+        function deleteLast() {
+            if (display.value.length > 1) {
+                display.value = display.value.slice(0, -1);
+            } else {
+                display.value = '0';
+            }
+        }
+
+        // Tính toán kết quả (=)
+        function calculate() {
+            try {
+                // Thay thế ký tự để hàm eval hiểu đúng (nếu có bổ sung ký tự đặc biệt)
+                let expression = display.value;
+                
+                // Sử dụng eval để tính toán chuỗi biểu thức
+                let result = eval(expression);
+                
+                // Giới hạn số chữ số thập phân nếu kết quả quá dài
+                if (result % 1 !== 0) {
+                    result = parseFloat(result.toFixed(4));
+                }
+                
+                display.value = result;
+            } catch (error) {
+                display.value = 'Lỗi';
+                setTimeout(clearDisplay, 1500); // Tự động xóa lỗi sau 1.5 giây
+            }
+        }
+    </script>
+</body>
+</html>
