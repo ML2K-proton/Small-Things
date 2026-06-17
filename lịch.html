@@ -241,7 +241,7 @@
     <div class="todo-section">
         <h3 id="todo-date-title">Công việc ngày...</h3>
         <div class="todo-input-group">
-            <input type="text" id="todo-input" placeholder="Thêm công việc mới...">
+            <input type="text" id="todo-input" placeholder="Thêm nhiệm vụ...">
             <button id="btn-add-todo">Thêm</button>
         </div>
         <ul class="todo-list" id="todo-list-container"></ul>
@@ -343,12 +343,12 @@
         
         // Cập nhật tiêu đề ngày đang hiển thị công việc
         const [y, m, d] = selectedDateStr.split('-');
-        todoDateTitle.textContent = `Công việc ngày ${d}/${m}/${y}`;
+        todoDateTitle.textContent = `Những con quái vật cần tiêu diệt ${d}/${m}/${y}`;
 
         const tasks = todoData[selectedDateStr] || [];
 
         if (tasks.length === 0) {
-            todoListContainer.innerHTML = '<li style="color: #999; text-align: center; margin-top: 20px;">Không có công việc nào.</li>';
+            todoListContainer.innerHTML = '<li style="color: #999; text-align: center; margin-top: 20px;">Đám quái vật hiện chưa xuất hiện.</li>';
             return;
         }
 
