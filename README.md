@@ -22,6 +22,13 @@ Chào mừng bạn đến với kho lưu trữ các ứng dụng nhỏ (Micro-to
     * **Thanh tiến độ thông minh:** Tự động tính toán và hiển thị % hoàn thành công việc trực quan trong ngày.
     * **Giao diện Dark Mode Neon:** Phong cách Cyberpunk LED giúp tập trung cao độ vào ban đêm.
 
+### 2. 🎮 Wheels of Life
+Trò chơi Task-based Level tăng cường phát triển bản thân ở các mặt khác nhau của cuộc sống.
+* **Tính năng cốt lõi:**
+    * **Score:** Chấm điểm các hoạt động tích cực, tăng kinh nghiệm bản thân ở các lĩnh vực tùy theo độ khó.
+    * **Thanh tiến độ thông minh:** Tự động tính toán và hiển thị %.
+    * **Giao diện Spider net:** Phong cách mạng nhện giúp trực quan hóa tổng thể các lĩnh vực.
+    *  **Tab thêm nhiệm vụ:** Thêm nhiệm vụ, thêm kinh nghiệm 1 cách đơn giản.
 ---
 
 ## 🛠️ Hướng dẫn cài đặt & Tùy chỉnh nhanh
@@ -30,8 +37,4 @@ Chào mừng bạn đến với kho lưu trữ các ứng dụng nhỏ (Micro-to
 1. Tải hoặc sao chép mã nguồn của file `.html` về máy tính.
 2. Nhấp đúp chuột vào file để mở trực tiếp trên bất kỳ trình duyệt nào (Chrome, Edge, Safari, Firefox).
 
-### Cách tùy chỉnh hạn chót (Dành cho nhà phát triển/Admin)
-Đối với công cụ đếm ngược, để thay đổi mốc thời gian đích, bạn chỉ cần thực hiện theo các bước sau:
 
-1. Mở file HTML bằng một trình soạn thảo mã nguồn (Notepad, VS Code, Sublime Text...).
-2. Tìm đến dòng có biến `MY_DEADLINE` (th
