@@ -258,8 +258,8 @@
         health: { name: "Sức khỏe", color: "#ef4444" },
         money: { name: "Tiền bạc", color: "#10b981" },
         networking: { name: "Mạng lưới quan hệ", color: "#3b82f6" },
-        communication: { name: "Khả năng nói chuyện", color: "#f59e0b" },
-        love: { name: "Tình yêu", color: "#ec4899" },
+        communication: { name: "Giao tiếp", color: "#f59e0b" },
+        love: { name: "Tình yêu & hôn nhân", color: "#ec4899" },
         learning: { name: "Học tập", color: "#8b5cf6" },
         skills: { name: "Kỹ năng", color: "#06b6d4" }
     };
@@ -295,7 +295,7 @@
         event.currentTarget.classList.add('active');
 
         if(tabId === 'tab1') {
-            // Cập nhật lại biểu đồ khi quay lại Tab 1 để mượt mà
+            // Cập nhật lại biểu đồ khi quay lại Tab 1
             renderDashboard();
         }
     }
@@ -312,7 +312,7 @@
         }
     }
 
-    // Tính toán Danh hiệu dựa trên Level hiện tại
+    // Tính toán Danh hiệu dựa trên Level 
     function getRankName(level) {
         let index = level - 1;
         if (index >= RANKS.length) index = RANKS.length - 1;
