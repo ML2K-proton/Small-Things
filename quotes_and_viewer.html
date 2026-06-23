@@ -92,18 +92,7 @@
             background-color: #217dbb;
             transform: translateY(-2px);
         }
-        /* Style cho khối hiển thị JSON */
-        pre {
-            background-color: #2d3748;
-            color: #f7fafc;
-            padding: 20px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            max-height: 400px;
-            overflow-y: auto;
-        }
+
     </style>
 </head>
 <body>
@@ -125,7 +114,7 @@
 
 
     <script>
-        // Toàn bộ dữ liệu JSON được nhúng trực tiếp vào script của trang
+        // Toàn bộ dữ liệu quotes vào script
         const quotesData = [{"quote": "Thiên tài là một phần trăm cảm hứng và chín mươi chín phần trăm sự đổ mồ hôi.", "author": "Thomas Edison"}, {"quote": "Bạn có thể quan sát được rất nhiều điều chỉ bằng cách chú ý nhìn xem.", "author": "Yogi Berra"}, {"quote": "Một ngôi nhà tự chia rẽ chống lại chính nó thì không thể đứng vững.", "author": "Abraham Lincoln"}, {"quote": "Khó khăn càng tăng lên khi chúng ta càng tiến gần đến mục tiêu.", "author": "Johann Wolfgang von Goethe"}, {"quote": "Số phận nằm trong tay bạn chứ không phải ai khác.", "author": "Byron Pulsifer"}, {"quote": "Hãy làm người đứng đầu nhưng đừng bao giờ làm bạo chúa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Không có gì xảy ra trừ khi trước tiên chúng ta biết mơ ước.", "author": "Carl Sandburg"}, {"quote": "Khởi đầu tốt đẹp là đã hoàn thành một nửa.", "author": "Aristotle"}, {"quote": "Cuộc sống là một trải nghiệm học tập, nhưng chỉ khi bạn chịu học hỏi.", "author": "Yogi Berra"}, {"quote": "Tự mãn là điều chí mạng đối với sự tiến bộ.", "author": "Margaret Sangster"}, {"quote": "Bình an đến từ bên trong. Đừng tìm kiếm nó ở bên ngoài.", "author": "Buddha (Đức Phật)"}, {"quote": "Những gì bạn cho đi là những gì bạn nhận lại.", "author": "Byron Pulsifer"}, {"quote": "Chúng ta chỉ có thể học cách yêu bằng cách dấn thân yêu thương.", "author": "Iris Murdoch"}, {"quote": "Cuộc sống là sự thay đổi. Trưởng thành là sự lựa chọn. Hãy chọn lựa khôn ngoan.", "author": "Karen Clark"}, {"quote": "Bạn sẽ nhìn thấy điều đó khi bạn tin vào nó.", "author": "Wayne Dyer"}, {"quote": "Hôm nay chính là ngày mai mà hôm qua chúng ta đã lo lắng.", "author": ""}, {"quote": "Nhìn thấy lỗi sai trên bài của người khác luôn dễ dàng hơn.", "author": ""}, {"quote": "Ai rồi cũng phải chết. Nhưng không phải ai cũng thực sự sống.", "author": ""}, {"quote": "Để dẫn dắt mọi người, hãy đi phía sau họ.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Khi không có gì trong tay, người ta chẳng còn gì để mất.", "author": "William Shakespeare"}, {"quote": "Rắc rối chỉ là cơ hội khoác lên mình bộ quần áo lao động.", "author": "Henry J. Kaiser"}, {"quote": "Hòn đá lăn thì không bám rêu.", "author": "Publilius Syrus"}, {"quote": "Ý tưởng là điểm khởi đầu của mọi sự giàu có.", "author": "Napoleon Hill"}, {"quote": "Mọi thứ trên đời đều là may mắn.", "author": "Donald Trump"}, {"quote": "Không làm gì cả còn tốt hơn là bận rộn với những việc vô nghĩa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Hãy tin tưởng chính mình. Bạn biết nhiều hơn bạn nghĩ đấy.", "author": "Benjamin Spock"}, {"quote": "Hãy nghiên cứu quá khứ nếu bạn muốn biết trước tương lai.", "author": "Confucius (Khổng Tử)"}, {"quote": "Ngày hôm nay đã được ban phước lành, hãy tìm kiếm sự bình yên trong nó.", "author": ""}, {"quote": "Đi từ sai lầm này đến sai lầm khác, người ta sẽ khám phá ra toàn bộ sự thật.", "author": "Sigmund Freud"}, {"quote": "Làm tốt tốt hơn là nói hay.", "author": "Benjamin Franklin"}, {"quote": "Hãy tự cứu lấy chính mình. Đừng phụ thuộc vào người khác.", "author": "Buddha (Đức Phật)"}, {"quote": "Một ngày hôm nay giá trị bằng hai ngày mai.", "author": "Benjamin Franklin"}, {"quote": "Một khi bạn chọn hy vọng, mọi điều đều có thể.", "author": "Christopher Reeve"}, {"quote": "Chúa luôn chọn con đường đơn giản nhất.", "author": "Albert Einstein"}, {"quote": "Học tập là một kho báu sẽ theo chủ nhân của nó đến bất cứ nơi đâu.", "author": "Chinese proverb (Tục ngữ Trung Quốc)"}, {"quote": "Hãy sống đúng như những gì bạn muốn người khác thấy ở mình.", "author": "Socrates"}, {"quote": "Một mục tiêu mà không có kế hoạch thì chỉ là một điều ước.", "author": "Larry Elder"}, {"quote": "Học hỏi từ hôm qua, sống cho hôm nay, hy vọng vào ngày mai.", "author": "Albert Einstein"}, {"quote": "Làm hoặc không làm. Không có chuyện làm thử.", "author": "Yoda"}];
 
         let lastIndex = -1;
@@ -134,7 +123,7 @@
             if (quotesData.length === 0) return;
             
             let randomIndex;
-            // Thuật toán tránh trùng lặp lại câu vừa xem
+            // Tránh trùng lặp câu vừa xem
             do {
                 randomIndex = Math.floor(Math.random() * quotesData.length);
             } while (randomIndex === lastIndex && quotesData.length > 1);
@@ -146,7 +135,7 @@
             document.getElementById('author-display').textContent = item.author ? `— ${item.author}` : "— Khuyết danh";
         }
 
-        // Gọi hiển thị câu đầu tiên ngay khi trang load xong
+        // Gọi hiển thị câu đầu tiên khi trang load xong
         window.onload = nextQuote;
     </script>
 </body>
