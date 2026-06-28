@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Xếp Hạng Học Viên - Tối Ưu CSS</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --primary-color: #ffdb58; --bg-color: #fffdf0; --text-color: #333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        h1 { text-align: center; margin-bottom: 20px; color: #d4a373; text-transform: uppercase; letter-spacing: 2px; }
+        
+        /* Tabs điều hướng */
+        .tab-container { display: flex; width: 100%; max-width: 900px; margin-bottom: 20px; border-bottom: 3px solid var(--primary-color); }
+        .tab-btn { flex: 1; padding: 12px; background: #eee; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; color: #666; }
+        .tab-btn.active { background: var(--primary-color); color: #000; }
+        .tab-content { display: none; width: 100%; max-width: 900px; background: white; padding: 25px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .tab-content.active { display: block; }
+
+        /* TAB 1: GIAO DIỆN LEO RANK */
+        .rank-board-container { background: #ffffff; border-radius: 20px; padding: 30px; position: relative; }
+        .board-title { text-align: center; background: #fff; padding: 8px 20px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: fit-content; margin: 0 auto 30px; }
+        .board-title h1 { font-size: 24px; color: #333; }
+        
+        /* Khu vực Top 3 Huy chương */
+        .medal-podium { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin-bottom: 40px; }
+        .medal-item { display: flex; flex-direction: column; align-items: center; text-align: center; width: 150px; }
+        .medal-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; color: #333; box-shadow: 0 6px 12px rgba(0,0,0,0.1); margin-bottom: 12px; border: 4px solid #fff; }
+        
+        /* Định dạng màu sắc huy chương */
+        .medal-1 .medal-circle { background-color: #ffd700; border-color: #e6b800; transform: scale(1.15); }
+        .medal-2 .medal-circle { background-color: #e0e0e0; border-color: #b5b5b5; }
+        .medal-3 .medal-circle { background-color: #cd7f32; border-color: #aa6321; color: white; }
+        .medal-title { font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-shadow: 0 1px 1px rgba(255,255,255,0.5); }
+        .medal-name { font-weight: bold; font-size: 15px; margin-top: 5px; }
+        .medal-score { font-size: 13px; color: #666; }
+
+        /* Lưới hiển thị từ Top 4 trở đi */
+        .sub-rank-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .sub-rank-item { display: flex; align-items: center; padding: 10px 15px; border-radius: 12px; color: white; font-weight: bold; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        .sub-rank-item:hover { transform: translateY(-2px); }
+        
+        /* Phối màu sắc sinh động cho các ô danh sách */
+        .bg-rank-4 { background-color: #7bc0e3; }
+        .bg-rank-5 { background-color: #68c3a3; }
+        .bg-rank-6 { background-color: #90c590; }
+        .bg-rank-7 { background-color: #81c7a5; }
+        .bg-rank-8 { background-color: #e57373; }
+        .bg-rank-9 { background-color: #bcaaa4; }
+        .bg-rank-other { background-color: #90a4ae; }
+
+        .sub-rank-avatar { width: 35px; height: 35px; border-radius: 50%; background: #fff; margin-right: 12px; display: flex; align-items: center; justify-content: center; color: #333; font-size: 12px; }
+        .sub-rank-info { flex: 1; }
+        .sub-rank-pos { font-size: 11px; opacity: 0.9; text-transform: uppercase; }
+        .sub-rank-name { font-size: 14px; }
+        .sub-rank-score { font-size: 13px; font-weight: normal; text-align: right; }
+
+        /* Khối Cộng Điểm */
+        .score-action-box { background: #ffffff; border: 3px solid #b3d7ff; border-radius: 15px; width: 100%; max-width: 400px; margin: 20px auto 0; padding: 10px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; position: relative; }
+        .score-action-title { background: #2f80ed; color: white; padding: 4px 15px; border-radius: 10px; font-weight: bold; font-size: 14px; width: fit-content; margin: -25px auto 10px; }
+        .score-action-fields { display: flex; align-items: center; gap: 10px; }
+        .score-select-student { flex: 1.5; padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+        .score-input-value { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ccc; text-align: center; }
+        .btn-plus-star { background: #f2c94c; color: #333; border: none; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #d4a71c; }
+        .btn-plus-star:active { transform: translateY(3px); box-shadow: none; }
+        .vinh-danh-note { text-align: center; font-size: 13px; color: #666; margin-top: 10px; }
+
+        /* TAB 2: QUẢN LÝ */
+        .form-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"], input[type="number"] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        input[type="text"] { flex: 2; }
+        input[type="number"] { flex: 1; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .btn-add { background: #4a90e2; color: white; }
+        .edit-table { width: 100%; border-collapse: collapse; }
+        .edit-table th, .edit-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .edit-table th { background-color: #f2f2f2; }
+        .btn-small { padding: 5px 10px; font-size: 12px; border-radius: 3px; margin-right: 2px; }
+        .btn-delete { background: #ee5253; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>🏆 Hệ Thống Leo Rank 🏆</h1>
+
+    <div class="tab-container">
+        <button class="tab-btn active" onclick="switchTab('rank-tab')">📊 Giao Diện Leo Rank</button>
+        <button class="tab-btn" onclick="switchTab('edit-tab')">⚙️ Chỉnh Sửa Học Sinh</button>
+    </div>
+
+    <div id="rank-tab" class="tab-content active">
+        <div class="rank-board-container">
+            <div class="board-title">
+                <h1>⭐ BẢNG XẾP HẠNG ⭐</h1>
+            </div>
+            
+            <div class="medal-podium">
+                <div class="medal-item medal-2">
+                    <div class="medal-circle"><div class="medal-title">Top 2 CAO THỦ 😈</div></div>
+                    <div class="medal-name" id="top2-name">-</div>
+                    <div class="medal-score" id="top2-score">0đ</div>
+                </div>
+                <div class="medal-item medal-1">
+                    <div class="medal-circle"><div class="medal-title">Top 1 ĐẠI CAO THỦ 👹</div></div>
+                    <div class="medal-name" id="top1-name">-</div>
+                    <div class="medal-score" id="top1-score">0đ</div>
+                </div>
+                <div class="medal-item medal-3">
+                    <div class="medal-circle"><div class="medal-title">Top 3 TINH ANH 👺</div></div>
+                    <div class="medal-name" id="top3-name">-</div>
+                    <div class="medal-score" id="top3-score">0đ</div>
+                </div>
+            </div>
+
+            <div class="sub-rank-grid" id="subRankGrid"></div>
+
+            <div class="score-action-box">
+                <div class="score-action-title">CỘNG ĐIỂM</div>
+                <div class="score-action-fields">
+                    <select id="quickSelectStudent" class="score-select-student">
+                        <option value="">-- Chọn học sinh --</option>
+                    </select>
+                    <input type="number" id="quickScoreValue" class="score-input-value" value="10">
+                    <button class="btn-plus-star" onclick="submitQuickScore()">PLUS +</button>
+                </div>
+            </div>
+            <div class="vinh-danh-note"><b>Vinh danh:</b> Chọn học sinh và cộng điểm để họ thăng hạng!</div>
+        </div>
+    </div>
+
+    <div id="edit-tab" class="tab-content">
+        <h3>Thêm học sinh mới</h3>
+        <div class="form-group">
+            <input type="text" id="newStudentName" placeholder="Nhập tên học sinh...">
+            <input type="number" id="newStudentScore" value="0">
+            <button class="btn btn-add" onclick="addStudent()">Thêm học sinh</button>
+        </div>
+
+        <h3>Danh sách quản lý</h3>
+        <table class="edit-table">
+            <thead>
+                <tr>
+                    <th>Tên Học Sinh</th>
+                    <th>Điểm Hiện Tại</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody id="editTableBody"></tbody>
+        </table>
+    </div>
+
+    <script>
+        let students = [
+            { id: 1, name: "Minh Anh", score: 150 },
+            { id: 2, name: "Đức Huy", score: 130 },
+            { id: 3, name: "Lan Hương", score: 110 },
+            { id: 4, name: "Hải Yến", score: 95 },
+            { id: 5, name: "Quốc Việt", score: 90 },
+            { id: 6, name: "Thu Trang", score: 85 },
+            { id: 7, name: "Minh Đức", score: 80 },
+            { id: 8, name: "Thu Vàng", score: 75 },
+            { id: 9, name: "Văn Nam", score: 70 }
+        ];
+
+        function fireworkEffect() {
+            confetti({ particleCount: 100, spread: 70, origin: { x: 0, y: 0.8 } });
+            confetti({ particleCount: 100, spread: 70, origin: { x: 1, y: 0.8 } });
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+            renderData();
+        }
+
+        function renderData() {
+            students.sort((a, b) => b.score - a.score);
+
+            if(students[0]) {
+                document.getElementById('top1-name').innerText = "1st - " + students[0].name;
+                document.getElementById('top1-score').innerText = students[0].score + "đ";
+            } else { resetPodium('top1'); }
+
+            if(students[1]) {
+                document.getElementById('top2-name').innerText = "2nd - " + students[1].name;
+                document.getElementById('top2-score').innerText = students[1].score + "đ";
+            } else { resetPodium('top2'); }
+
+            if(students[2]) {
+                document.getElementById('top3-name').innerText = "3rd - " + students[2].name;
+                document.getElementById('top3-score').innerText = students[2].score + "đ";
+            } else { resetPodium('top3'); }
+
+            const subRankGrid = document.getElementById('subRankGrid');
+            subRankGrid.innerHTML = "";
+            
+            const selectDropdown = document.getElementById('quickSelectStudent');
+            selectDropdown.innerHTML = '<option value="">-- Chọn học sinh --</option>';
+
+            students.forEach((student, index) => {
+                let rankPosition = index + 1;
+                selectDropdown.innerHTML += `<option value="${student.id}">${student.name} (${student.score}đ)</option>`;
+
+                if(rankPosition >= 4) {
+                    let bgClass = "bg-rank-other";
+                    if(rankPosition <= 9) { bgClass = "bg-rank-" + rankPosition; }
+
+                    let itemHtml = `
+                        <div class="sub-rank-item ${bgClass}" onclick="selectStudentInDropdown(${student.id})">
+                            <div class="sub-rank-avatar">👤</div>
+                            <div class="sub-rank-info">
+                                <div class="sub-rank-pos">Vị trí ${rankPosition}</div>
+                                <div class="sub-rank-name">${student.name}</div>
+                            </div>
+                            <div class="sub-rank-score">${student.score}đ</div>
+                        </div>
+                    `;
+                    subRankGrid.innerHTML += itemHtml;
+                }
+            });
+
+            const editTableBody = document.getElementById('editTableBody');
+            editTableBody.innerHTML = "";
+            students.forEach(student => {
+                let row = `
+                    <tr>
+                        <td><input type="text" value="${student.name}" onchange="updateName(${student.id}, this.value)"></td>
+                        <td><input type="number" value="${student.score}" onchange="updateScoreDirect(${student.id}, this.value)"></td>
+                        <td><button class="btn btn-small btn-delete" onclick="deleteStudent(${student.id})">Xóa</button></td>
+                    </tr>
+                `;
+                editTableBody.innerHTML += row;
+            });
+        }
+
+        function resetPodium(idPrefix) {
+            document.getElementById(`${idPrefix}-name`).innerText = "-";
+            document.getElementById(`${idPrefix}-score`).innerText = "0đ";
+        }
+
+        function selectStudentInDropdown(studentId) {
+            document.getElementById('quickSelectStudent').value = studentId;
+        }
+
+        function submitQuickScore() {
+            const studentId = parseInt(document.getElementById('quickSelectStudent').value);
+            const scoreValue = parseInt(document.getElementById('quickScoreValue').value) || 0;
+
+            if(!studentId) {
+                alert("Vui lòng chọn một học sinh cần cộng điểm!");
+                return;
+            }
+
+            let student = students.find(s => s.id === studentId);
+            if(student) {
+                student.score += scoreValue;
+                fireworkEffect();
+                renderData();
+                document.getElementById('quickSelectStudent').value = studentId;
+            }
+        }
+
+        function addStudent() {
+            const nameInput = document.getElementById('newStudentName');
+            const scoreInput = document.getElementById('newStudentScore');
+
+            if(nameInput.value.trim() === "") {
+                alert("Vui lòng nhập tên học sinh!");
+                return;
+            }
+
+            students.push({
+                id: Date.now(),
+                name: nameInput.value.trim(),
+                score: parseInt(scoreInput.value) || 0
+            });
+
+            nameInput.value = "";
+            scoreInput.value = "0";
+            renderData();
+        }
+
+        function updateScoreDirect(id, newScore) {
+            let student = students.find(s => s.id === id);
+            if(student) { student.score = parseInt(newScore) || 0; renderData(); }
+        }
+
+        function updateName(id, newName) {
+            let student = students.find(s => s.id === id);
+            if(student && newName.trim() !== "") { student.name = newName.trim(); }
+        }
+
+        function deleteStudent(id) {
+            if(confirm("Bạn có chắc chắn muốn xóa học sinh này?")) {
+                students = students.filter(s => s.id !== id);
+                renderData();
+            }
+        }
+
+        renderData();
+    </script>
+</body>
+</html>
