@@ -6,6 +6,7 @@
     <title>Chuyển đổi dữ liệu Quote: JSON & HTML</title>
     <style>
         * {
+<<<<<<< HEAD
             box-sizing: border-box;
             margin: 0;
             padding: 0;
@@ -29,11 +30,27 @@
             color: #2c3e50;
             margin-bottom: 10px;
             font-size: 2rem;
+=======
+            box-sizing: border-box; margin: 0; padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: #f4f6f9; color: #333; padding: 30px 20px; line-height: 1.6;
+        }
+        .container {
+            max-width: 900px; margin: 0 auto;
+        }
+        header {
+            text-align: center; margin-bottom: 40px;
+        }
+        h1 {
+            color: #2c3e50; margin-bottom: 10px; font-size: 2rem;
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
         }
         p.subtitle {
             color: #7f8c8d;
         }
         .section {
+<<<<<<< HEAD
             background: #ffffff;
             padding: 30px;
             border-radius: 12px;
@@ -104,18 +121,50 @@
             max-height: 400px;
             overflow-y: auto;
         }
+=======
+            background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;
+        }
+        h2 {
+            color: #2980b9; font-size: 1.4rem; margin-bottom: 20px; border-left: 4px solid #2980b9; padding-left: 10px;
+        }
+        /* Style cho phần Trình phát Quote */
+        .quote-box {
+            background: #f8f9fa; border-radius: 8px; padding: 30px; text-align: center; min-height: 150px; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; border: 1px solid #e9ecef; margin-bottom: 20px;
+        }
+        .quote-text {
+            font-size: 1.25rem; font-weight: 600;color: #34495e; font-style: italic; margin-bottom: 15px;
+        }
+        .quote-author {
+            font-size: 1rem; color: #e67e22; font-weight: bold;
+        }
+        .btn {
+            display: block; width: fit-content; margin: 0 auto; background-color: #2980b9; color: white; border: none;
+            padding: 10px 25px; font-size: 1rem; border-radius: 25px; cursor: pointer; font-weight: bold; transition: all 0.2s ease;
+            box-shadow: 0 4px 10px rgba(41, 128, 185, 0.2);
+        }
+        .btn:hover {
+            background-color: #217dbb; transform: translateY(-2px);
+        }
+
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
+<<<<<<< HEAD
             <h1>Dữ liệu Danh Ngôn (Quotes)</h1>
             <p class="subtitle">Đã chuyển đổi từ định dạng Excel sang JSON & tích hợp giao diện HTML</p>
+=======
+            <h1>CHÂM NGÔN (Quotes)</h1>
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
         </header>
 
         <!-- PHẦN 1: GIAO DIỆN HIỂN THỊ QUOTE -->
         <div class="section">
+<<<<<<< HEAD
             <h2>1. Trình phát ngẫu nhiên ứng dụng dữ liệu JSON</h2>
             <div class="quote-box">
                 <p class="quote-text" id="quote-display">Đang tải câu danh ngôn...</p>
@@ -291,6 +340,24 @@
     <script>
         // Toàn bộ dữ liệu JSON được nhúng trực tiếp vào script của trang
         const quotesData = [{"quote": "Thiên tài là một phần trăm cảm hứng và chín mươi chín phần trăm sự đổ mồ hôi.", "author": "Thomas Edison"}, {"quote": "Bạn có thể quan sát được rất nhiều điều chỉ bằng cách chú ý nhìn xem.", "author": "Yogi Berra"}, {"quote": "Một ngôi nhà tự chia rẽ chống lại chính nó thì không thể đứng vững.", "author": "Abraham Lincoln"}, {"quote": "Khó khăn càng tăng lên khi chúng ta càng tiến gần đến mục tiêu.", "author": "Johann Wolfgang von Goethe"}, {"quote": "Số phận nằm trong tay bạn chứ không phải ai khác.", "author": "Byron Pulsifer"}, {"quote": "Hãy làm người đứng đầu nhưng đừng bao giờ làm bạo chúa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Không có gì xảy ra trừ khi trước tiên chúng ta biết mơ ước.", "author": "Carl Sandburg"}, {"quote": "Khởi đầu tốt đẹp là đã hoàn thành một nửa.", "author": "Aristotle"}, {"quote": "Cuộc sống là một trải nghiệm học tập, nhưng chỉ khi bạn chịu học hỏi.", "author": "Yogi Berra"}, {"quote": "Tự mãn là điều chí mạng đối với sự tiến bộ.", "author": "Margaret Sangster"}, {"quote": "Bình an đến từ bên trong. Đừng tìm kiếm nó ở bên ngoài.", "author": "Buddha (Đức Phật)"}, {"quote": "Những gì bạn cho đi là những gì bạn nhận lại.", "author": "Byron Pulsifer"}, {"quote": "Chúng ta chỉ có thể học cách yêu bằng cách dấn thân yêu thương.", "author": "Iris Murdoch"}, {"quote": "Cuộc sống là sự thay đổi. Trưởng thành là sự lựa chọn. Hãy chọn lựa khôn ngoan.", "author": "Karen Clark"}, {"quote": "Bạn sẽ nhìn thấy điều đó khi bạn tin vào nó.", "author": "Wayne Dyer"}, {"quote": "Hôm nay chính là ngày mai mà hôm qua chúng ta đã lo lắng.", "author": ""}, {"quote": "Nhìn thấy lỗi sai trên bài của người khác luôn dễ dàng hơn.", "author": ""}, {"quote": "Ai rồi cũng phải chết. Nhưng không phải ai cũng thực sự sống.", "author": ""}, {"quote": "Để dẫn dắt mọi người, hãy đi phía sau họ.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Khi không có gì trong tay, người ta chẳng còn gì để mất.", "author": "William Shakespeare"}, {"quote": "Rắc rối chỉ là cơ hội khoác lên mình bộ quần áo lao động.", "author": "Henry J. Kaiser"}, {"quote": "Hòn đá lăn thì không bám rêu.", "author": "Publilius Syrus"}, {"quote": "Ý tưởng là điểm khởi đầu của mọi sự giàu có.", "author": "Napoleon Hill"}, {"quote": "Mọi thứ trên đời đều là may mắn.", "author": "Donald Trump"}, {"quote": "Không làm gì cả còn tốt hơn là bận rộn với những việc vô nghĩa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Hãy tin tưởng chính mình. Bạn biết nhiều hơn bạn nghĩ đấy.", "author": "Benjamin Spock"}, {"quote": "Hãy nghiên cứu quá khứ nếu bạn muốn biết trước tương lai.", "author": "Confucius (Khổng Tử)"}, {"quote": "Ngày hôm nay đã được ban phước lành, hãy tìm kiếm sự bình yên trong nó.", "author": ""}, {"quote": "Đi từ sai lầm này đến sai lầm khác, người ta sẽ khám phá ra toàn bộ sự thật.", "author": "Sigmund Freud"}, {"quote": "Làm tốt tốt hơn là nói hay.", "author": "Benjamin Franklin"}, {"quote": "Hãy tự cứu lấy chính mình. Đừng phụ thuộc vào người khác.", "author": "Buddha (Đức Phật)"}, {"quote": "Một ngày hôm nay giá trị bằng hai ngày mai.", "author": "Benjamin Franklin"}, {"quote": "Một khi bạn chọn hy vọng, mọi điều đều có thể.", "author": "Christopher Reeve"}, {"quote": "Chúa luôn chọn con đường đơn giản nhất.", "author": "Albert Einstein"}, {"quote": "Học tập là một kho báu sẽ theo chủ nhân của nó đến bất cứ nơi đâu.", "author": "Chinese proverb (Tục ngữ Trung Quốc)"}, {"quote": "Hãy sống đúng như những gì bạn muốn người khác thấy ở mình.", "author": "Socrates"}, {"quote": "Một mục tiêu mà không có kế hoạch thì chỉ là một điều ước.", "author": "Larry Elder"}, {"quote": "Học hỏi từ hôm qua, sống cho hôm nay, hy vọng vào ngày mai.", "author": "Albert Einstein"}, {"quote": "Làm hoặc không làm. Không có chuyện làm thử.", "author": "Yoda"}];
+=======
+            <h2>Châm ngôn ngẫu nhiên</h2>
+            <div class="quote-box">
+                <p class="quote-text" id="quote-display">Đang tải...</p>
+                <p class="quote-author" id="author-display"></p>
+            </div>
+            <button class="btn" onclick="nextQuote()">Đổi Ngẫu Nhiên</button>
+        </div>
+
+    <script>
+        // Toàn bộ dữ liệu quotes vào script
+        const quotesData = [
+            {"quote":"Để kết quả tự lên tiếng; lặng im trước sự hời hợt, và chỉ mở lòng với người thực sự cầu thị", "author":"NNH"},
+            
+            
+            
+            { "quote": "Thiên tài là một phần trăm cảm hứng và chín mươi chín phần trăm sự đổ mồ hôi.", "author": "Thomas Edison"}, {"quote": "Bạn có thể quan sát được rất nhiều điều chỉ bằng cách chú ý nhìn xem.", "author": "Yogi Berra"}, {"quote": "Một ngôi nhà tự chia rẽ chống lại chính nó thì không thể đứng vững.", "author": "Abraham Lincoln"}, {"quote": "Khó khăn càng tăng lên khi chúng ta càng tiến gần đến mục tiêu.", "author": "Johann Wolfgang von Goethe"}, {"quote": "Số phận nằm trong tay bạn chứ không phải ai khác.", "author": "Byron Pulsifer"}, {"quote": "Hãy làm người đứng đầu nhưng đừng bao giờ làm bạo chúa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Không có gì xảy ra trừ khi trước tiên chúng ta biết mơ ước.", "author": "Carl Sandburg"}, {"quote": "Khởi đầu tốt đẹp là đã hoàn thành một nửa.", "author": "Aristotle"}, {"quote": "Cuộc sống là một trải nghiệm học tập, nhưng chỉ khi bạn chịu học hỏi.", "author": "Yogi Berra"}, {"quote": "Tự mãn là điều chí mạng đối với sự tiến bộ.", "author": "Margaret Sangster"}, {"quote": "Bình an đến từ bên trong. Đừng tìm kiếm nó ở bên ngoài.", "author": "Buddha (Đức Phật)"}, {"quote": "Những gì bạn cho đi là những gì bạn nhận lại.", "author": "Byron Pulsifer"}, {"quote": "Chúng ta chỉ có thể học cách yêu bằng cách dấn thân yêu thương.", "author": "Iris Murdoch"}, {"quote": "Cuộc sống là sự thay đổi. Trưởng thành là sự lựa chọn. Hãy chọn lựa khôn ngoan.", "author": "Karen Clark"}, {"quote": "Bạn sẽ nhìn thấy điều đó khi bạn tin vào nó.", "author": "Wayne Dyer"}, {"quote": "Hôm nay chính là ngày mai mà hôm qua chúng ta đã lo lắng.", "author": ""}, {"quote": "Nhìn thấy lỗi sai trên bài của người khác luôn dễ dàng hơn.", "author": ""}, {"quote": "Ai rồi cũng phải chết. Nhưng không phải ai cũng thực sự sống.", "author": ""}, {"quote": "Để dẫn dắt mọi người, hãy đi phía sau họ.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Khi không có gì trong tay, người ta chẳng còn gì để mất.", "author": "William Shakespeare"}, {"quote": "Rắc rối chỉ là cơ hội khoác lên mình bộ quần áo lao động.", "author": "Henry J. Kaiser"}, {"quote": "Hòn đá lăn thì không bám rêu.", "author": "Publilius Syrus"}, {"quote": "Ý tưởng là điểm khởi đầu của mọi sự giàu có.", "author": "Napoleon Hill"}, {"quote": "Mọi thứ trên đời đều là may mắn.", "author": "Donald Trump"}, {"quote": "Không làm gì cả còn tốt hơn là bận rộn với những việc vô nghĩa.", "author": "Lao Tzu (Lão Tử)"}, {"quote": "Hãy tin tưởng chính mình. Bạn biết nhiều hơn bạn nghĩ đấy.", "author": "Benjamin Spock"}, {"quote": "Hãy nghiên cứu quá khứ nếu bạn muốn biết trước tương lai.", "author": "Confucius (Khổng Tử)"}, {"quote": "Ngày hôm nay đã được ban phước lành, hãy tìm kiếm sự bình yên trong nó.", "author": ""}, {"quote": "Đi từ sai lầm này đến sai lầm khác, người ta sẽ khám phá ra toàn bộ sự thật.", "author": "Sigmund Freud"}, {"quote": "Làm tốt tốt hơn là nói hay.", "author": "Benjamin Franklin"}, {"quote": "Hãy tự cứu lấy chính mình. Đừng phụ thuộc vào người khác.", "author": "Buddha (Đức Phật)"}, {"quote": "Một ngày hôm nay giá trị bằng hai ngày mai.", "author": "Benjamin Franklin"}, {"quote": "Một khi bạn chọn hy vọng, mọi điều đều có thể.", "author": "Christopher Reeve"}, {"quote": "Chúa luôn chọn con đường đơn giản nhất.", "author": "Albert Einstein"}, {"quote": "Học tập là một kho báu sẽ theo chủ nhân của nó đến bất cứ nơi đâu.", "author": "Chinese proverb (Tục ngữ Trung Quốc)"}, {"quote": "Hãy sống đúng như những gì bạn muốn người khác thấy ở mình.", "author": "Socrates"}, {"quote": "Một mục tiêu mà không có kế hoạch thì chỉ là một điều ước.", "author": "Larry Elder"}, {"quote": "Học hỏi từ hôm qua, sống cho hôm nay, hy vọng vào ngày mai.", "author": "Albert Einstein"}, {"quote": "Làm hoặc không làm. Không có chuyện làm thử.", "author": "Yoda"}];
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
 
         let lastIndex = -1;
 
@@ -298,7 +365,11 @@
             if (quotesData.length === 0) return;
             
             let randomIndex;
+<<<<<<< HEAD
             // Thuật toán tránh trùng lặp lại câu vừa xem
+=======
+            // Tránh trùng lặp câu vừa xem
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
             do {
                 randomIndex = Math.floor(Math.random() * quotesData.length);
             } while (randomIndex === lastIndex && quotesData.length > 1);
@@ -310,7 +381,11 @@
             document.getElementById('author-display').textContent = item.author ? `— ${item.author}` : "— Khuyết danh";
         }
 
+<<<<<<< HEAD
         // Gọi hiển thị câu đầu tiên ngay khi trang load xong
+=======
+        // Gọi hiển thị câu đầu tiên khi trang load xong
+>>>>>>> f56e2690742c430224ce0f62a960ee8c54f1b8d9
         window.onload = nextQuote;
     </script>
 </body>

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheels of Life</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #000000;
+            --text-color: #ffffff;
+            --accent-color: #584747;
+            --accent-hover: #97e41c;
+            --border-color: #863434;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            text-align: center;
+            color: #fff;
+            margin-top: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Tabs Styling */
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #aaa;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            color: var(--accent-color);
+            border-bottom: 3px solid var(--accent-color);
+            margin-bottom: -2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Layout Tab 1 */
+        .tab1-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .tab1-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-container {
+            position: relative;
+            background: #222;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wheel-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stat-card {
+            background: #333;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-color);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .rank-tag {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .progress-bar-bg {
+            background: #444;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5, #06b6d4);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Layout Tab 2 */
+        .form-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        input, select, button {
+            padding: 10px 14px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: #333;
+            color: white;
+            font-size: 14px;
+        }
+
+        input { flex: 2; min-width: 200px; }
+        select { flex: 1; min-width: 150px; }
+        
+        button {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: var(--accent-hover);
+        }
+
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .task-item {
+            background: #333;
+            padding: 14px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid #aaa;
+        }
+
+        .task-info h4 {
+            margin: 0 0 4px 0;
+        }
+
+        .task-info span {
+            font-size: 12px;
+            color: #aaa;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-done { background: #10b981; }
+        .btn-done:hover { background: #059669; }
+        .btn-delete { background: #ef4444; }
+        .btn-delete:hover { background: #dc2626; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Dashboard</h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tab1')">Wheels of Life</button>
+        <button class="tab-btn" onclick="switchTab('tab2')">Nhiệm Vụ & Rèn Luyện</button>
+    </div>
+
+    <div id="tab1" class="tab-content active">
+        <div class="tab1-layout">
+            <div class="chart-container">
+                <canvas id="wheelChart"></canvas>
+            </div>
+            <div class="wheel-stats" id="wheelStatsContainer">
+                </div>
+        </div>
+    </div>
+
+    <div id="tab2" class="tab-content">
+        <h3>Thêm nhiệm vụ mới</h3>
+        <div class="form-group">
+            <input type="text" id="taskName" placeholder="Nhập tên nhiệm vụ (Ví dụ: Chạy bộ 3km, Đọc 10 trang sách...)" required>
+            <select id="taskCategory"></select> <select id="taskExp">
+                <option value="15">Dễ (+15 EXP)</option>
+                <option value="30" selected>Trung bình (+30 EXP)</option>
+                <option value="50">Khó (+50 EXP)</option>
+                <option value="100">Thách thức (+100 EXP)</option>
+            </select>
+            <button onclick="addTask()">Thêm Nhiệm Vụ</button>
+        </div>
+
+        <h3>Danh sách nhiệm vụ hiện tại</h3>
+        <div class="task-list" id="taskListContainer">
+            </div>
+    </div>
+</div>
+
+<script>
+    // 1. CẤU HÌNH HỆ THỐNG DANH HIỆU & KHÍA CẠNH BẢN THÂN
+    const RANKS = ["Tân binh", "Tinh nhuệ", "Đại tướng", "Huyền thoại", "Universe"];
+    const MAX_LEVEL = 5;
+    const EXP_PER_LEVEL = 100;
+
+    const categories = {
+        health: { name: "Sức khỏe", color: "#ef4444" },
+        money: { name: "Tiền bạc", color: "#10b981" },
+        networking: { name: "Mạng lưới quan hệ", color: "#3b82f6" },
+        communication: { name: "Giao tiếp", color: "#f59e0b" },
+        love: { name: "Tình yêu & hôn nhân", color: "#ec4899" },
+        learning: { name: "Học tập", color: "#8b5cf6" },
+        skills: { name: "Kỹ năng", color: "#06b6d4" }
+    };
+
+    // 2. KHỞI TẠO HOẶC LẤY DỮ LIỆU TỪ LOCALSTORAGE
+    let wheelData = JSON.parse(localStorage.getItem('wheelData')) || {
+        health: { exp: 0, level: 1 },
+        money: { exp: 0, level: 1 },
+        networking: { exp: 0, level: 1 },
+        communication: { exp: 0, level: 1 },
+        love: { exp: 0, level: 1 },
+        learning: { exp: 0, level: 1 },
+        skills: { exp: 0, level: 1 }
+    };
+
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    let chartInstance = null;
+
+    // 3. KHỞI CHẠY ỨNG DỤNG
+    window.onload = function() {
+        initCategorySelect();
+        renderDashboard();
+        renderTasks();
+    };
+
+    // Chuyển đổi qua lại giữa các Tab
+    function switchTab(tabId) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+
+        if(tabId === 'tab1') {
+            // Cập nhật lại biểu đồ khi quay lại Tab 1
+            renderDashboard();
+        }
+    }
+
+    // Đổ danh sách khía cạnh vào thẻ select ở Tab 2
+    function initCategorySelect() {
+        const select = document.getElementById('taskCategory');
+        select.innerHTML = '';
+        for (let key in categories) {
+            let opt = document.createElement('option');
+            opt.value = key;
+            opt.textContent = categories[key].name;
+            select.appendChild(opt);
+        }
+    }
+
+    // Tính toán Danh hiệu dựa trên Level 
+    function getRankName(level) {
+        let index = level - 1;
+        if (index >= RANKS.length) index = RANKS.length - 1;
+        return RANKS[index];
+    }
+
+    // Tính toán Level tổng thể dựa trên EXP tích lũy (Cộng dồn điểm)
+    function calculateStats(key) {
+        let currentExp = wheelData[key].exp;
+        
+        // Tính level dựa trên tổng exp (mỗi level = 100exp)
+        let calculatedLevel = Math.floor(currentExp / EXP_PER_LEVEL) + 1;
+        if(calculatedLevel > MAX_LEVEL) calculatedLevel = MAX_LEVEL;
+        
+        wheelData[key].level = calculatedLevel;
+        
+        // Tính số exp dư hiện tại của level đó để hiển thị thanh progress
+        let displayExp = currentExp % EXP_PER_LEVEL;
+        if (calculatedLevel === MAX_LEVEL) {
+            displayExp = EXP_PER_LEVEL; // Max cấp thì đầy cây
+        }
+        
+        return {
+            level: calculatedLevel,
+            displayExp: displayExp,
+            rank: getRankName(calculatedLevel)
+        };
+    }
+
+    // 4. RENDER TAB 1: BIỂU ĐỒ & CHỈ SỐ PROGRESS
+    function renderDashboard() {
+        const container = document.getElementById('wheelStatsContainer');
+        container.innerHTML = '';
+
+        const chartLabels = [];
+        const chartValues = [];
+        const chartColors = [];
+
+        for (let key in categories) {
+            const stat = calculateStats(key);
+            const cat = categories[key];
+
+            // Thêm dữ liệu vào mảng để vẽ biểu đồ (lấy giá trị level làm thước đo vòng quay)
+            chartLabels.push(cat.name);
+            chartValues.push(stat.level);
+            chartColors.push(cat.color);
+
+            // Render giao diện thanh tiến trình bên phải
+            container.innerHTML += `
+                <div class="stat-card" style="border-left-color: ${cat.color}">
+                    <div class="stat-header">
+                        <span>${cat.name} (Lv.${stat.level})</span>
+                        <span class="rank-tag" style="background-color: ${cat.color}">${stat.rank}</span>
+                    </div>
+                    <div style="font-size: 12px; margin-bottom: 4px; color: #bbb;">
+                        EXP: ${stat.displayExp}/${EXP_PER_LEVEL} (Tổng: ${wheelData[key].exp})
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: ${(stat.displayExp/EXP_PER_LEVEL)*100}%; background: ${cat.color}"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Khởi tạo hoặc cập nhật Chart.js
+        const ctx = document.getElementById('wheelChart').getContext('2d');
+        if (chartInstance) {
+            chartInstance.destroy(); // Xóa biểu đồ cũ để tránh chồng lấp dữ liệu khi render lại
+        }
+
+        chartInstance = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Mức độ phát triển (Cấp độ 1 - 5)',
+                    data: chartValues,
+                    backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                    borderColor: 'rgba(79, 70, 229, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: chartColors,
+                    pointRadius: 5
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: { color: '#444' },
+                        grid: { color: '#444' },
+                        pointLabels: { color: '#fff', font: { size: 12 } },
+                        ticks: { backdropColor: 'transparent', color: '#aaa', stepSize: 1 },
+                        min: 0,
+                        max: 5
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+
+        // Lưu trạng thái vào LocalStorage
+        localStorage.setItem('wheelData', JSON.stringify(wheelData));
+    }
+
+    // 5. RENDER TAB 2: QUẢN LÝ NHIỆM VỤ
+    function renderTasks() {
+        const container = document.getElementById('taskListContainer');
+        container.innerHTML = '';
+
+        if(tasks.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:#888;">Chưa có nhiệm vụ nào được thêm. Hãy thiết lập kỷ luật bản thân!</p>`;
+            return;
+        }
+
+        tasks.forEach((task, index) => {
+            const cat = categories[task.category];
+            container.innerHTML += `
+                <div class="task-item" style="border-left-color: ${cat.color}">
+                    <div class="task-info">
+                        <h4>${task.name}</h4>
+                        <span>Thuộc nhóm: <strong>${cat.name}</strong> | <span style="color:${cat.color}">+${task.exp} EXP</span></span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="btn-done" onclick="completeTask(${index})">Hoàn thành</button>
+                        <button class="btn-delete" onclick="deleteTask(${index})">Xóa</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    // Thêm nhiệm vụ
+    function addTask() {
+        const nameInput = document.getElementById('taskName');
+        const categorySelect = document.getElementById('taskCategory');
+        const expSelect = document.getElementById('taskExp');
+
+        if(!nameInput.value.trim()) {
+            alert("Vui lòng nhập tên nhiệm vụ!");
+            return;
+        }
+
+        const newTask = {
+            name: nameInput.value,
+            category: categorySelect.value,
+            exp: parseInt(expSelect.value)
+        };
+
+        tasks.push(newTask);
+        nameInput.value = ''; // Reset input
+        renderTasks();
+    }
+
+    // Hoàn thành nhiệm vụ (Cộng điểm)
+    function completeTask(index) {
+        const task = tasks[index];
+        
+        // Cộng dồn điểm EXP vào khía cạnh tương ứng
+        wheelData[task.category].exp += task.exp;
+        
+        alert(`Chúc mừng! Bạn đã hoàn thành nhiệm vụ và nhận được ${task.exp} EXP cho khía cạnh [${categories[task.category].name}].`);
+
+        // Xóa nhiệm vụ sau khi làm xong
+        tasks.splice(index, 1);
+        
+        renderTasks();
+        renderDashboard();
+    }
+
+    // Xóa nhiệm vụ (Không cộng điểm)
+    function deleteTask(index) {
+        if(confirm("Bạn có chắc chắn muốn xóa nhiệm vụ này không?")) {
+            tasks.splice(index, 1);
+            renderTasks();
+        }
+    }
+</script>
+
+</body>
+</html>
