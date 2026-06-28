@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bộ Đếm Ngược</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background: #f4f4f9; }
+        .timer-container { background: white; padding: 30px; border-radius: 12px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .inputs { margin-bottom: 20px; }
+        .inputs input { width: 60px; padding: 8px; font-size: 18px; text-align: center; margin: 0 5px; border: 1px solid #ccc; border-radius: 6px; }
+        .display { font-size: 48px; font-weight: bold; color: #333; margin: 20px 0; font-family: monospace; }
+        button { padding: 10px 20px; font-size: 16px; font-weight: bold; cursor: pointer; border: none; border-radius: 6px; margin: 0 5px; transition: 0.2s; }
+        .btn-start { background: #28a745; color: white; }
+        .btn-start:hover { background: #218838; }
+        .btn-stop { background: #dc3545; color: white; }
+        .btn-stop:hover { background: #c82333; }
+    </style>
+</head>
+<body>
+<div> <h1> TIMER </h1></div>
+<div class="timer-container">
+    <div class="inputs">
+        <input type="number" id="inputHours" min="0" max="23" value="0"> :
+        <input type="number" id="inputMinutes" min="0" max="59" value="0"> :
+        <input type="number" id="inputSeconds" min="0" max="59" value="0">
+    </div>
+
+    <div class="display" id="timerDisplay">00:00:00</div>
+
+    <button class="btn-start" id="startBtn" onclick="toggleTimer()">PLAY</button>
+    <button class="btn-stop" onclick="resetTimer()">RESET</button>
+</div>
+
+<audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg" preload="auto" loop></audio>
+
+<script>
+    let countdown;
+    let totalSeconds = false;
+    let isRunning = false;
+    const alarm = document.getElementById('alarmSound');
+
+    const inputs = document.querySelectorAll('.inputs input');
+    inputs.forEach(input => {
+        input.addEventListener('input', updateDisplayFromInputs);
+    });
+
+    function updateDisplayFromInputs() {
+        if (isRunning) return;
+        let hrs = parseInt(document.getElementById('inputHours').value) || 0;
+        let mins = parseInt(document.getElementById('inputMinutes').value) || 0;
+        let secs = parseInt(document.getElementById('inputSeconds').value) || 0;
+        totalSeconds = (hrs * 3600) + (mins * 60) + secs;
+        displayTime(totalSeconds);
+    }
+
+    function displayTime(seconds) {
+        let hrs = Math.floor(seconds / 3600);
+        let mins = Math.floor((seconds % 3600) / 60);
+        let secs = seconds % 60;
+        document.getElementById('timerDisplay').innerText = 
+            (hrs < 10 ? "0" : "") + hrs + ":" + 
+            (mins < 10 ? "0" : "") + mins + ":" + 
+            (secs < 10 ? "0" : "") + secs;
+    }
+
+    function toggleTimer() {
+        const startBtn = document.getElementById('startBtn');
+        
+        if (!alarm.paused) {
+            stopAlarm();
+            return;
+        }
+
+        if (isRunning) {
+            clearInterval(countdown);
+            startBtn.innerText = "PLAY";
+            startBtn.style.background = "#28a745";
+            isRunning = false;
+        } else {
+            if (totalSeconds <= 0) return alert("Vui lòng nhập thời gian!");
+            
+            toggleInputs(true); 
+            startBtn.innerText = "PAUSE";
+            startBtn.style.background = "#ffc107";
+            isRunning = true;
+
+            countdown = setInterval(() => {
+                totalSeconds--;
+                displayTime(totalSeconds);
+
+                if (totalSeconds <= 0) {
+                    clearInterval(countdown);
+                    alarm.play(); // Kích hoạt âm thanh
+                    startBtn.innerText = "TẮT CHUÔNG";
+                    startBtn.style.background = "#dc3545";
+                }
+            }, 1000);
+        }
+    }
+
+    function stopAlarm() {
+        alarm.pause();
+        alarm.currentTime = 0;
+        resetTimer();
+    }
+
+    function resetTimer() {
+        clearInterval(countdown);
+        alarm.pause();
+        alarm.currentTime = 0;
+        isRunning = false;
+        toggleInputs(false);
+        const startBtn = document.getElementById('startBtn');
+        startBtn.innerText = "PLAY";
+        startBtn.style.background = "#28a745";
+        updateDisplayFromInputs();
+    }
+
+    function toggleInputs(disabled) {
+        document.getElementById('inputHours').disabled = disabled;
+        document.getElementById('inputMinutes').disabled = disabled;
+        document.getElementById('inputSeconds').disabled = disabled;
+    }
+</script>
+
+
+</body>
+</html>
