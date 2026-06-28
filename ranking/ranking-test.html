@@ -3,178 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bảng Xếp Hạng Học Viên - Leo Rank Pháo Hoa</title>
+    <title>Bảng Xếp Hạng Học Viên</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <style>
-        :root {
-            --primary-color: #ffdb58;
-            --bg-color: #fffdf0;
-            --text-color: #333;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #d4a373;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
+     <style>
+        :root { --primary-color: #ffdb58; --bg-color: #fffdf0; --text-color: #333; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        h1 { text-align: center; margin-bottom: 20px; color: #d4a373; text-transform: uppercase; letter-spacing: 2px; }
+        
         /* Tabs điều hướng */
-        .tab-container {
-            display: flex;
-            width: 100%;
-            max-width: 900px;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--primary-color);
-        }
+        .tab-container { display: flex; width: 100%; max-width: 900px; margin-bottom: 20px; border-bottom: 3px solid var(--primary-color); }
+        .tab-btn { flex: 1; padding: 12px; background: #eee; border: none; border-radius: 10px 10px 0 0; cursor: pointer; font-size: 16px; font-weight: bold; transition: 0.3s; color: #666; }
+        .tab-btn.active { background: var(--primary-color); color: #000; }
+        .tab-content { display: none; width: 100%; max-width: 900px; background: white; padding: 25px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .tab-content.active { display: block; }
 
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            background: #eee;
-            border: none;
-            border-radius: 10px 10px 0 0;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: 0.3s;
-            color: #666;
-        }
-
-        .tab-btn.active {
-            background: var(--primary-color);
-            color: #000;
-        }
-
-        .tab-content {
-            display: none;
-            width: 100%;
-            max-width: 900px;
-            background: white;
-            padding: 25px;
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* --- TAB 1: GIAO DIỆN LEO RANK --- */
-        .rank-board-container {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px;
-            position: relative;
-        }
-
-        .board-title {
-            text-align: center;
-            background: #fff;
-            padding: 8px 20px;
-            border-radius: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            width: fit-content;
-            margin: 0 auto 30px;
-            font-weight: bold;
-            color: #333;
-        }
-
+        /* TAB 1: GIAO DIỆN LEO RANK */
+        .rank-board-container { background: #ffffff; border-radius: 20px; padding: 30px; position: relative; }
+        .board-title { text-align: center; background: #fff; padding: 8px 20px; border-radius: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: fit-content; margin: 0 auto 30px; }
+        .board-title h1 { font-size: 24px; color: #333; }
+        
         /* Khu vực Top 3 Huy chương */
-        .medal-podium {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .medal-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            width: 150px;
-        }
-
-        /* Thiết kế vòng tròn huy chương */
-        .medal-circle {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            color: #333;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-            margin-bottom: 12px;
-            border: 4px solid #fff;
-        }
-
+        .medal-podium { display: flex; justify-content: center; align-items: flex-start; gap: 40px; margin-bottom: 40px; }
+        .medal-item { display: flex; flex-direction: column; align-items: center; text-align: center; width: 150px; }
+        .medal-circle { width: 100px; height: 100px; border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; font-weight: bold; color: #333; box-shadow: 0 6px 12px rgba(0,0,0,0.1); margin-bottom: 12px; border: 4px solid #fff; }
+        
         /* Định dạng màu sắc huy chương */
         .medal-1 .medal-circle { background-color: #ffd700; border-color: #e6b800; transform: scale(1.15); }
         .medal-2 .medal-circle { background-color: #e0e0e0; border-color: #b5b5b5; }
         .medal-3 .medal-circle { background-color: #cd7f32; border-color: #aa6321; color: white; }
-
-        .medal-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 2px;
-        }
-        .medal-name {
-            font-weight: bold;
-            font-size: 15px;
-            margin-top: 5px;
-        }
-        .medal-score {
-            font-size: 13px;
-            color: #666;
-        }
+        .medal-title { font-size: 11px; text-transform: uppercase; font-weight: bold; margin-bottom: 2px; text-shadow: 0 1px 1px rgba(255,255,255,0.5); }
+        .medal-name { font-weight: bold; font-size: 15px; margin-top: 5px; }
+        .medal-score { font-size: 13px; color: #666; }
 
         /* Lưới hiển thị từ Top 4 trở đi */
-        .sub-rank-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 15px;
-            margin-bottom: 40px;
-        }
-
-        .sub-rank-item {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border-radius: 12px;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .sub-rank-item:hover {
-            transform: translateY(-2px);
-        }
-
-        /* Phối màu sắc sinh động cho các ô */
+        .sub-rank-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .sub-rank-item { display: flex; align-items: center; padding: 10px 15px; border-radius: 12px; color: white; font-weight: bold; box-shadow: 0 3px 6px rgba(0,0,0,0.1); cursor: pointer; transition: transform 0.2s; }
+        .sub-rank-item:hover { transform: translateY(-2px); }
+        
+        /* Phối màu sắc sinh động cho các ô danh sách */
         .bg-rank-4 { background-color: #7bc0e3; }
         .bg-rank-5 { background-color: #68c3a3; }
         .bg-rank-6 { background-color: #90c590; }
@@ -183,136 +50,34 @@
         .bg-rank-9 { background-color: #bcaaa4; }
         .bg-rank-other { background-color: #90a4ae; }
 
-        .sub-rank-avatar {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            background: #fff;
-            margin-right: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #333;
-            font-size: 12px;
-        }
-
-        .sub-rank-info {
-            flex: 1;
-        }
+        .sub-rank-avatar { width: 35px; height: 35px; border-radius: 50%; background: #fff; margin-right: 12px; display: flex; align-items: center; justify-content: center; color: #333; font-size: 12px; }
+        .sub-rank-info { flex: 1; }
         .sub-rank-pos { font-size: 11px; opacity: 0.9; text-transform: uppercase; }
         .sub-rank-name { font-size: 14px; }
-        .sub-rank-score { font-size: 13px; font-weight: normal; text-align: right;}
+        .sub-rank-score { font-size: 13px; font-weight: normal; text-align: right; }
 
         /* Khối Cộng Điểm */
-        .score-action-box {
-            background: #ffffff;
-            border: 3px solid #b3d7ff;
-            border-radius: 15px;
-            width: 100%;
-            max-width: 400px;
-            margin: 20px auto 0;
-            padding: 10px 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            text-align: center;
-            position: relative;
-        }
+        .score-action-box { background: #ffffff; border: 3px solid #b3d7ff; border-radius: 15px; width: 100%; max-width: 400px; margin: 20px auto 0; padding: 10px 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center; position: relative; }
+        .score-action-title { background: #2f80ed; color: white; padding: 4px 15px; border-radius: 10px; font-weight: bold; font-size: 14px; width: fit-content; margin: -25px auto 10px; }
+        .score-action-fields { display: flex; align-items: center; gap: 10px; }
+        .score-select-student { flex: 1.5; padding: 8px; border-radius: 8px; border: 1px solid #ccc; }
+        .score-input-value { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid #ccc; text-align: center; }
+        .btn-plus-star { background: #f2c94c; color: #333; border: none; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; box-shadow: 0 3px 0 #d4a71c; }
+        .btn-plus-star:active { transform: translateY(3px); box-shadow: none; }
+        .vinh-danh-note { text-align: center; font-size: 13px; color: #666; margin-top: 10px; }
 
-        .score-action-title {
-            background: #2f80ed;
-            color: white;
-            padding: 4px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            font-size: 14px;
-            width: fit-content;
-            margin: -25px auto 10px;
-        }
-
-        .score-action-fields {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .score-select-student {
-            flex: 1.5;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        .score-input-value {
-            flex: 1;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            text-align: center;
-        }
-
-        .btn-plus-star {
-            background: #f2c94c;
-            color: #333;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 3px 0 #d4a71c;
-        }
-        .btn-plus-star:active {
-            transform: translateY(3px);
-            box-shadow: none;
-        }
-
-        .vinh-danh-note {
-            text-align: center;
-            font-size: 13px;
-            color: #666;
-            margin-top: 10px;
-        }
-
-        /* --- TAB 2: QUẢN LÝ --- */
-        .form-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"], input[type="number"] {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 14px;
-        }
-
+        /* TAB 2: QUẢN LÝ */
+        .form-group { display: flex; gap: 10px; margin-bottom: 20px; }
+        input[type="text"], input[type="number"] { padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
         input[type="text"] { flex: 2; }
         input[type="number"] { flex: 1; }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
         .btn-add { background: #4a90e2; color: white; }
-
-        .edit-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .edit-table th, .edit-table td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-        }
-
+        .edit-table { width: 100%; border-collapse: collapse; }
+        .edit-table th, .edit-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
         .edit-table th { background-color: #f2f2f2; }
-        
-        .btn-small { padding: 5px 10px; font-size: 12px; border-radius: 3px; margin-right: 2px;}
-        .btn-delete { background: #ee5253; color: white; }
+        .btn-small { padding: 5px 10px; font-size: 12px; border-radius: 3px; margin-right: 2px; }
+        .btn-delete { background: #ee5253; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
