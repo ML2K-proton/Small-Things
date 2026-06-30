@@ -60,10 +60,10 @@
 </head>
 <body>
 
-<div id="cloud-status">🔥 Firebase: Kết nối...</div>
+<div id="cloud-status">🔥 Firebase: Connecting...</div>
 
 <div class="container">
-    <h1>OMNI-SURVIVAL <span style="font-size: 0.75rem; color: var(--secondary-color);">v8.0 Realtime</span></h1>
+    <h1>DEAD OR SURVIVE <span style="font-size: 0.75rem; color: var(--secondary-color);">v8.0 Realtime</span></h1>
 
     <div class="status-panel">
         <button class="btn-tax" onclick="applyTax()">⚠️ Thuế Ngày (-10 SP)</button>
@@ -81,13 +81,13 @@
     </div>
 
     <div class="card" style="margin-bottom: 6px; border-color: var(--primary-color);">
-        <h2 style="margin: 0 0 4px 0; font-size: 11px;">🎒 INVENTORY (KHO ĐỒ REALTIME)</h2>
+        <h2 style="margin: 0 0 4px 0; font-size: 11px;">🎒 INVENTORY (KHO ĐỒ)</h2>
         <div class="item-list" id="inventory-container"></div>
     </div>
 
     <div class="grid">
         <div class="card">
-            <h2>⚒️ FARMING QUESTS</h2>
+            <h2>⚒️ DEADLY QUESTS</h2>
             <div class="item-list" id="quests-container"></div>
             <div class="add-custom-box">
                 <div class="add-row">
@@ -139,8 +139,8 @@
 </div>
 
 <script>
-    // 🛑 THAY ĐƯỜNG LINK DATABASE CỦA ÔNG VÀO ĐÂY (Giữ nguyên đuôi /game.json)
-    const FIREBASE_URL = "https://YOUR_PROJECT_ID-default-rtdb.asia-southeast1.firebasedatabase.app/game.json";
+    // 🛑 THAY LINK DATABASE (Giữ nguyên đuôi /game.json)
+    const FIREBASE_URL = "https://dead-or-survive-d07ab-default-rtdb.asia-southeast1.firebasedatabase.app/game.json";
 
     const levelTitles = ["Tân Thủ", "Sống Sót", "Nhặt Rác", "Thợ Săn", "Chiến Binh", "Kỹ Sư", "Huyền Thoại", "Bất Tử"];
     let currentSP = 20;
