@@ -111,3 +111,27 @@ Từ góc nhìn này, bạn không cần phải theo đuổi "di sản" hay "ý 
 > **Khỏe mạnh → Có giá trị → Có ảnh hưởng → Có tài sản → Có tự do.**
 
 Đó cũng đã là một triết lý sống hoàn chỉnh và đủ thực tế cho rất nhiều người.
+
+
+### Liệt lựa chọn (trạng thái bị mắc kẹt vì quá nhiều phương án) thường không phải vì bạn “thiếu cơ hội”, mà vì bạn đang đòi kiểm soát tất cả khả năng cùng lúc—khiến não liên tục so sánh, dự đoán sai–đúng, sợ chọn sai nên cuối cùng không chọn được gì.
+
+1.  Cách thoát nhanh (thực dụng)
+Chốt tiêu chí 1–2 ý: Ví dụ “an toàn nhất” + “dễ bắt đầu nhất”. Còn lại tạm gác.
+
+2. Chọn theo ngưỡng, không theo tối ưu: “Nếu đủ tốt trong 24–48 giờ thì làm.” Đừng tìm “phương án hoàn hảo”.
+
+3. Bẻ việc thành bước nhỏ: thay vì “quyết định xong hết”, hãy quyết định “bước đầu” (liên hệ/đặt lịch/thử trong 1 tuần).
+
+4. Giới hạn thời gian ra quyết định: đặt hẹn 10–20 phút, quá giờ thì chọn phương án đang hợp nhất hiện tại.
+
+Một ví dụ ngắn
+Nếu bạn đang phân vân chọn hướng học/việc làm: thay vì “chọn ngành hoàn hảo”, hãy chọn 1 lộ trình 30 ngày dựa trên tiêu chí “học được ngay + có người/nguồn hỗ trợ”, rồi sau 30 ngày mới đánh giá lại.
+
+Đường “tham lam” thành “khai thác cơ hội”
+Bạn có quá nhiều lựa chọn thì tốt—nhưng hãy biến nó thành lợi thế bằng cách:
+
+ưu tiên cái tạo đà sớm,
+
+chấp nhận quyết định có thể chỉnh,
+
+và nhớ rằng “chọn” không đồng nghĩa “mất hết đường lui”.
